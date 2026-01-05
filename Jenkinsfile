@@ -4,6 +4,16 @@ pipeline {
         maven 'MAVEN_HOME' 
     }
     stages {
+        stage('Hello My Java App'){
+            steps{
+                echo 'Java app up'
+            }
+        }
+        stage('Clone the repo'){
+            steps{
+                git branch: 'master', url:'https://github.com/shohail-DeV/jenkins-example.git'
+            }
+        }
         stage ('Compile Stage') {
             steps {
                     bat 'mvn clean compile'
@@ -14,9 +24,14 @@ pipeline {
                     bat 'mvn test'
             }
         }
-        stage ('Deployment Stage') {
+        stage('Code restoration'){
+            steps{
+                bat 'mvn clean'
+            }
+        }
+        stage ('Artifact') {
             steps {
-                    bat 'mvn deploy'
+                    bat 'mvn clean install'
             }
         }
     }
